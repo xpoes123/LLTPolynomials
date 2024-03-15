@@ -117,7 +117,7 @@ def Graph(vertex):
     plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 
-def KeatingToJiang(keatingPaths, nVars):
+def KeatingToJiang(keatingPaths, nVars, colorString):
     jiangPaths = []
     for path in keatingPaths:
         nextJiangPath = []
@@ -138,5 +138,5 @@ def KeatingToJiang(keatingPaths, nVars):
                 while y+1 < xVal:
                     y += 1
                     nextJiangPath.append((x,y))     
-        jiangPaths.append(Path(nextJiangPath, "red"))
+        jiangPaths.append(Path(nextJiangPath, colorString))
     return Vertex(jiangPaths)
