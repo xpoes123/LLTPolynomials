@@ -25,8 +25,11 @@ class Vertex:
                 maxY = max(math.ceil(pathing[1]), maxY)
         self.size = (maxX, maxY)
 
-
 class Path:
+    # Squares - list of squares that the path passes through
+    # Pathing - Uses squares to calculate the half integral pathing it takes
+    # Color - The intended color of the paht
+    # EnterExit - Creates a dictionary that describes the way a path enters and exits a square
     def __init__(self, squares = [], color = "black") -> None:
         if color not in colors:
             raise Exception("Color Not Defined")
@@ -47,7 +50,7 @@ class Path:
             return self.squares[self.squares.index(square) + 1] if not reverse else self.squares[self.squares.index(square) - 1]
         else:
             raise Exception("Square not found")
-    # Updates pathing to be accurate given rights 
+    # Updates pathing to be accurate given squares
     def fill(squares, color = "black"):
         if color == "black":
             if squares[0][1] != 0:
@@ -58,7 +61,11 @@ class Path:
                 for i in squares[1:]:
                     vPath.append((i[0] + 0.5, i[1] + 0.5))
                 LastSquare = squares[-1]
-                vPath.append((LastSquare[0] + 0.5, LastSquare[1] + 1))
+                print(LastSquare)
+                if LastSquare[1] == 0:
+                    vPath.append((LastSquare[0] + 0.5, 0))
+                else:
+                    vPath.append((LastSquare[0] + 0.5, LastSquare[1] + 1))
                 return vPath
         vPath = []
         FirstSquare = squares[0]
@@ -67,7 +74,11 @@ class Path:
         for i in squares[1:]:
             vPath.append((i[0] + 0.5, i[1] + 0.5))
         LastSquare = squares[-1]
-        vPath.append((LastSquare[0] + 0.5, LastSquare[1] + 1))
+        # print(LastSquare)
+        if LastSquare[1] == 0:
+            vPath.append((LastSquare[0] + 0.5, 0))
+        else:
+            vPath.append((LastSquare[0] + 0.5, LastSquare[1] + 1))
         return vPath
 
     # Creates a dictionary of tuples on the enter and exit of each square. Encodes coming from the top or bottom is 1, and left and right are -1
@@ -105,3 +116,27 @@ def Graph(vertex):
     plt.grid(linestyle='-', linewidth=2)
     plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
+
+def KeatingToJiang(keatingPaths, nVars):
+    jiangPaths = []
+    for path in keatingPaths:
+        nextJiangPath = []
+        x = -1
+        y = -1
+        firstNonZero = False
+        for xVal in path:
+            x += 1
+            if (not firstNonZero) and xVal > 0:
+                firstNonZero = True
+            if y >= 0 and firstNonZero:
+                nextJiangPath.append((x,y))
+            if xVal > nVars:
+                while y < nVars-1:
+                    y += 1
+                    nextJiangPath.append((x,y))
+            elif xVal > y+1:
+                while y+1 < xVal:
+                    y += 1
+                    nextJiangPath.append((x,y))     
+        jiangPaths.append(Path(nextJiangPath, "red"))
+    return Vertex(jiangPaths)
