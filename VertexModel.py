@@ -9,6 +9,7 @@ from itertools import product
 from timeit import default_timer as timer
 from matplotlib import pyplot as plt
 import math
+import Keating
 # import tikzplotlib
 
 colors = ["blue", "red", "black"]
@@ -117,7 +118,7 @@ def Graph(vertex):
     plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 
-def KeatingToJiang(keatingPaths, nVars, colorString):
+def KeatingToJiang(keatingPaths, nVars):
     jiangPaths = []
     for path in keatingPaths:
         nextJiangPath = []
@@ -138,5 +139,5 @@ def KeatingToJiang(keatingPaths, nVars, colorString):
                 while y+1 < xVal:
                     y += 1
                     nextJiangPath.append((x,y))     
-        jiangPaths.append(Path(nextJiangPath, colorString))
+        jiangPaths.append(Path(nextJiangPath, "red"))
     return Vertex(jiangPaths)

@@ -1,19 +1,30 @@
+import copy
 import VertexModel
 from matplotlib import pyplot as plt
-import SwapAlgorithm.Keating as Keating
+import Keating
+import time
 
 # Naive Implementation, how I would do it by hand
 def Algorithm(vertex):
     SwapPaths = []
     for path in vertex.paths:
         alg_path = path_algorithm(vertex, path)
-        if alg_path.pathing[0][1] + alg_path.pathing[-1][1] != vertex.size[1]:
+        if alg_path is not None:
             SwapPaths.append(alg_path)
     return SwapPaths
 
 def path_algorithm(vertex, start_path):
     currPath = start_path
-    currSquare = currPath.squares[0] if currPath.color == "blue" else currPath.squares[-1]
+    if currPath.color == "blue":
+        currSquare = currPath.squares[0]
+        for red_path in vertex.RedPaths:
+            if red_path.squares[0] == currSquare:
+                return
+    else:
+        currSquare = currPath.squares[-1]
+        for blue_path in vertex.BluePaths:
+            if blue_path.squares[-1] == currSquare:
+                return
     SwapPath = []
     SwapPath.append(currSquare)
     while(True):
@@ -85,8 +96,31 @@ def Graph(vertex, indiv = False):
         plt.gca().set_aspect('equal', adjustable='box')
         plt.show()
 
+# My attempt at sorting the paths based on their starting and ending squares
+def sort_paths(vertexs):
+    vertex_dictionary = {}
+    for vertex in vertexs:
+        boundaries = []
+        for path in vertex.paths:
+            start_square = path.squares[0]
+            end_square = path.squares[-1]
+            # In case order doesn't matter, you can just turn these into sets
+            boundaries.append((start_square[0], start_square[1], end_square[0], end_square[1]))
+        vertex_dictionary[vertex] = set(boundaries)
+    sorted_groups = []
+    for vertex in vertex_dictionary:
+        group = [vertex2]
+        boundaries = copy.copy(vertex_dictionary[boundaries])
+        del vertex_dictionary[vertex]
+        for vertex2 in vertex_dictionary:
+            if boundaries.intersect(vertex_dictionary[vertex2]):
+                group.append(vertex2)
+                del vertex_dictionary[vertex2]
+        sorted_groups.append(group)
+    return sorted_groups
+
+
 def direction(point1, point2):
-    """Function to determine the direction of movement between two points."""
     dx = point2[0] - point1[0]
     dy = point2[1] - point1[1]
     if dx > 0 or dy > 0:
@@ -120,5 +154,15 @@ v1 = VertexModel.Vertex([b1, r1, b2, r2, b3, r3])
 # print(path_algorithm(v1, v1.BluePaths[2]).pathing)
 # VertexModel.Graph(v2)
 # This gives all path ouputs according to the algorithm for the vertex model described
+s = time.perf_counter()
 v2 = VertexModel.Vertex(Algorithm(v1))
-Graph(v2, indiv = True)
+print(time.perf_counter()-s)
+Graph(v2, indiv = False)
+
+# for partition in Keating.Partition([[2,2],[2]],[[2,1],[0]]).TabList(2):
+#     print(partition[0], partition[1])
+#     print(VertexModel.KeatingToJiang(partition, 2))
+#     VertexModel.Graph(VertexModel.KeatingToJiang(partition, 2))
+l = []
+l = Algorithm(l)
+# Assume this gives us all vertex model objects after running the swap algorithm on them all.

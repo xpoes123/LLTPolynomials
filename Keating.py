@@ -27,31 +27,12 @@ from timeit import default_timer as timer
 #                `tikz(n)' generates tikz code for creating a table with all the tuples of SSYT of shapes given by `partition_list' drawn as paths (and their weights)
 
 
-
 # Notes:
 # - For LLT stuff the partitions are assumed to be the same length. Must pad shorter partitions with zero parts.
 # - In any function that takes in a tableaux, the tableaux are assumed to be padded with a zero at the start of each row and an inf at the end.
 #       This helps when finding co-inversions. 
 # - Because LLT polynomials with one part per partition are equal to Hall-Littlewood polynomials
 #       we can also get Hall-Littlewood polynomails with at most two columns.
-
-# Todo List:
-#   Easy things:
-# - wrappings (this would get all modified Macdonald polynomials)
-# - check some timings
-#
-#   Harder things:
-# - my refinemnt indexed by pairs of partitions and a matching
-#
-#   Other things:
-# - list standard young tableaux
-# - skyline fillings and related. Could compute keys, atoms, etc
-# - could create a tableaux class with its own methods ie __tikzTab and __xWeight (would clean up some clutter).
-#       It could also contain info like the content. This would make it easy to find generate all tableau with a given content ie Kosta numbers.
-#       Could use this to compute schur expansions
-# - could use sympy to simplify the expression of the polynomials and stuff like that
-# - could have the tikz code create its own tex file so I wouldn't have to keep copy/pasting things
-# - tikz code to draw tableaux fillings
 
 
 inf = np.inf
