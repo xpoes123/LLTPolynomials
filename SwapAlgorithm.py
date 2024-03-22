@@ -154,15 +154,15 @@ v1 = VertexModel.Vertex([b1, r1, b2, r2, b3, r3])
 # print(path_algorithm(v1, v1.BluePaths[2]).pathing)
 # VertexModel.Graph(v2)
 # This gives all path ouputs according to the algorithm for the vertex model described
-s = time.perf_counter()
-v2 = VertexModel.Vertex(Algorithm(v1))
-print(time.perf_counter()-s)
-Graph(v2, indiv = False)
+# s = time.perf_counter()
+# v2 = VertexModel.Vertex(Algorithm(v1))
+# print(time.perf_counter()-s)
+# Graph(v2, indiv = False)
 
 # for partition in Keating.Partition([[2,2],[2]],[[2,1],[0]]).TabList(2):
 #     print(partition[0], partition[1])
 #     print(VertexModel.KeatingToJiang(partition, 2))
 #     VertexModel.Graph(VertexModel.KeatingToJiang(partition, 2))
-l = []
-l = Algorithm(l)
+# l = []
+# l = Algorithm(l)
 # Assume this gives us all vertex model objects after running the swap algorithm on them all.
