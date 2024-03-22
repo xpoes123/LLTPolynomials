@@ -120,10 +120,12 @@ def Graph(vertex):
 
 def KeatingToJiang(keatingPaths, nVars):
     jiangPaths = []
+    pathOffset = 0
     for path in keatingPaths:
         nextJiangPath = []
-        x = -1
+        x = -1 + pathOffset
         y = -1
+        pathOffset += -1
         firstNonZero = False
         for xVal in path:
             x += 1
