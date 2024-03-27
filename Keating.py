@@ -198,7 +198,7 @@ class LLT:
     def __init__(self,ptuple=[Partition()]):
         self.partition_list =  ptuple
 
-    def __xWeight(self,tab,nVar):
+    def __xWeight(tab,nVar):
         xpow = [0] * nVar
         for i in range(len(tab)):
             for j in range(1,len(tab[i])):
@@ -206,7 +206,7 @@ class LLT:
                     xpow[tab[i][j]-1]+=1
         return xpow
 
-    def __tWeight(self,tab0,tab1):
+    def __tWeight(tab0,tab1):
         tpow = 0
         #print(tab0,tab1)
         for i in range(len(tab0)):
@@ -232,12 +232,45 @@ class LLT:
         for tabtuple in tabtuplelist:
             xpow = [0]*nVar
             for tab in tabtuple:
-                xpow = np.add(xpow,self.__xWeight(tab,nVar))
+                xpow = np.add(xpow,LLT.__xWeight(tab,nVar))
             tpow = 0
             if len(tabtuple)>1:
                 for a in range(len(tabtuple)-1):
                     for b in range(a+1,len(tabtuple)):
-                        tpow += self.__tWeight(tabtuple[a],tabtuple[b])
+                        tpow += LLT.__tWeight(tabtuple[a],tabtuple[b])
+                
+            if first:
+                first=False
+            else:
+                polystr = polystr + " + "
+
+            for i in range(nVar):
+                if xpow[i]==1:
+                    polystr = polystr + "x"+str(i+1)+" "
+                elif xpow[i]>1:
+                    polystr = polystr + "x"+str(i+1)+"^"+str(xpow[i])+" "
+
+            if tpow==1:
+                polystr = polystr + "t"+" "
+            elif tpow>1:
+                polystr = polystr + "t^"+ str(tpow)+" "
+
+        return polystr
+    
+
+    def GroupedPoly(nVar,tabtuplelist):
+        polystr = ""
+
+        first = True
+        for tabtuple in tabtuplelist:
+            xpow = [0]*nVar
+            for tab in tabtuple:
+                xpow = np.add(xpow,LLT.__xWeight(tab,nVar))
+            tpow = 0
+            if len(tabtuple)>1:
+                for a in range(len(tabtuple)-1):
+                    for b in range(a+1,len(tabtuple)):
+                        tpow += LLT.__tWeight(tabtuple[a],tabtuple[b])
                 
             if first:
                 first=False
