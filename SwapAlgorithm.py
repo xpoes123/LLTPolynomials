@@ -38,6 +38,7 @@ def path_algorithm(vertex, start_path):
                     enter, exit = (currEnterExit[1], paths.EnterExit[square][1]) if currPath.color == "red" else (currEnterExit[0], paths.EnterExit[square][0])
                     if enter != exit:
                         currPath = paths
+        currEnterExit = currPath.EnterExit[currSquare]
         if currPath.color == "red":
             currSquare = currPath.next_square(currSquare, reverse = True)
             if currSquare == -1:
