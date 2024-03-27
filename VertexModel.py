@@ -62,7 +62,7 @@ class Path:
                 for i in squares[1:]:
                     vPath.append((i[0] + 0.5, i[1] + 0.5))
                 LastSquare = squares[-1]
-                print(LastSquare)
+                # print(LastSquare)
                 if LastSquare[1] == 0:
                     vPath.append((LastSquare[0] + 0.5, 0))
                 else:
