@@ -49,7 +49,7 @@ def path_algorithm(vertex, start_path):
             if currSquare[1] == vertex.size[1]-1 and currEnterExit[1] == 1:
                 break
         else:
-            if currSquare[1] == 0 and currEnterExit[1] == 1:
+            if currSquare[1] == 0 and currEnterExit[0] == 1:
                 break
         if currPath.color == "red":
             currSquare = currPath.next_square(currSquare, reverse = True)
